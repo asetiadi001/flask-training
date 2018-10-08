@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1> Sign In</h1>
+    <!-- -Action attribute is to tell browser where to send the input data, empty action means target current browser url.
+         -Method by default is GET which append form fields to the URL, very cluttering, so use POST which append input data to
+         request body instead.
+         -form.hidden_tag() include hidden field that is used to protect the form against CSRF (CROSS SITE REQUEST FORGERY) attacks.
+         *once SECRET_KEY and form.hidden_tag() is set, the form will be protected.
+
+         Generally:
+            GET request= return information
+            POST request= submits form data to the server
+    -->
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }} <br>
+            {{ form.username(size=32) }}
+            <!-- why for loop? cause can have more than 1 validator attached in each field of form class-->
+            {% for error in form.username.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+            {% for error in form.password.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
